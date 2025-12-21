@@ -48,7 +48,10 @@ public class ToolAppSystem : AppSystem, IDisposable
 	protected void InitTool( AppSystemCreateInfo createInfo )
 	{
 		var commandLine = System.Environment.CommandLine;
-		commandLine = commandLine.Replace( ".dll", ".exe" ); // uck
+		if(OperatingSystem.IsWindows())
+			commandLine = commandLine.Replace( ".dll", ".exe" ); // uck
+		else
+			commandLine = commandLine.Replace( ".dll", "" ); // double uck
 
 		_appSystem = CMaterialSystem2AppSystemDict.Create( createInfo.ToMaterialSystem2AppSystemDictCreateInfo() );
 		_appSystem.SetModGameSubdir( "core" );
@@ -94,14 +97,14 @@ public class ToolAppSystem : AppSystem, IDisposable
 		exePath = System.IO.Path.GetDirectoryName( exePath );
 
 		// we're in the managed folder, we can set this shit up
-		if ( exePath.EndsWith( "bin\\managed", StringComparison.OrdinalIgnoreCase ) )
+		if ( exePath.EndsWith( "bin/managed", StringComparison.OrdinalIgnoreCase ) )
 		{
 			var dirInfo = new DirectoryInfo( exePath );
 
 			var gameRoot = dirInfo.Parent.Parent;
 
 			Environment.CurrentDirectory = gameRoot.FullName;
-			var nativeDllPath = $"{gameRoot.FullName}\\bin\\win64";
+			var nativeDllPath = $"{gameRoot.FullName}/bin/win64";
 
 			//
 			// If we don't load sentry specifically from this directly, it'll
@@ -115,9 +118,12 @@ public class ToolAppSystem : AppSystem, IDisposable
 			// Put our native dll path first so that when looking up native dlls we'll
 			// always use the ones from our folder first
 			//
-			var path = System.Environment.GetEnvironmentVariable( "PATH" );
-			path = $"{nativeDllPath};{path}";
-			System.Environment.SetEnvironmentVariable( "PATH", path );
+			if (OperatingSystem.IsWindows())
+			{
+				var path = System.Environment.GetEnvironmentVariable( "PATH" );
+				path = $"{nativeDllPath};{path}";
+				System.Environment.SetEnvironmentVariable( "PATH", path );
+			}
 
 			return;
 		}
