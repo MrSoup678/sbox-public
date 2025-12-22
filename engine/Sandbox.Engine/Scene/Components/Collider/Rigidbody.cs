@@ -310,6 +310,9 @@ sealed public partial class Rigidbody : Component, Component.ExecuteInEditor, IG
 		set
 		{
 			if ( field == value ) return;
+
+			field = value;
+
 			if ( _body.IsValid() ) _body.EnhancedCcd = value;
 		}
 	}
