@@ -14,6 +14,7 @@ internal class VTexWriter
 {
 	Logger log = new Logger( "VTexWriter" );
 	public VTEX_Header_t Header = new VTEX_Header_t();
+	public bool WantsUncompressed { get; set; } = false;
 
 	/// <summary>
 	/// Given what we know, work out the best texture
