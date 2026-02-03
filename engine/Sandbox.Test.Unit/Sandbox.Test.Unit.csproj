@@ -20,11 +20,11 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="CodeGen\data\**\*.cs" />
+    <Compile Remove="CodeGen\Data\**\*.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="CodeGen\data\*.*">
+    <None Include="CodeGen\Data\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

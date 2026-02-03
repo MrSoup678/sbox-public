@@ -24,7 +24,7 @@ namespace Generator
 
 			var path = System.IO.Path.GetDirectoryName( typeof( System.Object ).Assembly.Location );
 			refs.Add( MetadataReference.CreateFromFile( typeof( System.Object ).Assembly.Location ) );
-			refs.Add( MetadataReference.CreateFromFile( $"{path}\\System.Runtime.dll" ) );
+			refs.Add( MetadataReference.CreateFromFile( $"{path}/System.Runtime.dll" ) );
 
 			refs.Add( MetadataReference.CreateFromFile( typeof( Networking ).Assembly.Location ) );
 			refs.Add( MetadataReference.CreateFromFile( typeof( ConCmdAttribute ).Assembly.Location ) );
@@ -59,13 +59,13 @@ namespace Generator
 		[TestMethod]
 		public void RazorTemplateEasy()
 		{
-			BuildRazorFile( "data/codegen/easymode.razor" );
+			BuildRazorFile( "Data/codegen/EasyMode.razor" );
 		}
 
 		[TestMethod]
 		public void RazorTemplateHard()
 		{
-			var code = BuildRazorFile( "data/codegen/HardMode.razor" );
+			var code = BuildRazorFile( "Data/codegen/HardMode.razor" );
 			Assert.IsTrue( code.Contains( "HardMode.razor\", 5, 0 );" ) );
 			Assert.IsTrue( code.Contains( "HardMode.razor\", 7, 0 );" ) );
 		}
@@ -73,7 +73,7 @@ namespace Generator
 		[TestMethod]
 		public void RazorTemplateRef()
 		{
-			var code = BuildRazorFile( "data/codegen/Ref.razor" );
+			var code = BuildRazorFile( "Data/codegen/Ref.razor" );
 			Assert.IsTrue( code.Contains( ".OpenElement(" ) );
 			Assert.IsTrue( code.Contains( ".CloseElement()" ) );
 			Assert.IsTrue( code.Contains( ".AddReferenceCapture(" ) );
@@ -82,7 +82,7 @@ namespace Generator
 		[TestMethod]
 		public void RazorTemplateEvents()
 		{
-			var code = BuildRazorFile( "data/codegen/Events.razor" );
+			var code = BuildRazorFile( "Data/codegen/Events.razor" );
 
 			// @onclick=Clicked
 			Assert.IsTrue( code.Contains( "__builder.AddAttribute( 1, \"onclick\", Clicked );" ) );
@@ -100,20 +100,20 @@ namespace Generator
 		[TestMethod]
 		public void RazorTemplateAttributes()
 		{
-			BuildRazorFile( "data/codegen/Attributes.razor" );
+			BuildRazorFile( "Data/codegen/Attributes.razor" );
 		}
 
 		[TestMethod]
 		public void StylesheetAttribute()
 		{
-			var code = BuildRazorFile( "data/codegen/StylesheetAttribute.razor" );
+			var code = BuildRazorFile( "Data/codegen/StylesheetAttribute.razor" );
 			Assert.IsTrue( code.Contains( "[StyleSheet(" ) );
 		}
 
 		[TestMethod]
 		public void StyleBlock()
 		{
-			var code = BuildRazorFile( "data/codegen/StyleBlock.razor" );
+			var code = BuildRazorFile( "Data/codegen/StyleBlock.razor" );
 			Assert.IsFalse( code.Contains( "<style>" ) );
 			Assert.IsFalse( code.Contains( "</style>" ) );
 			Assert.IsTrue( code.Contains( ".AddStyleDefinitions(" ), "Missing .AddStyleBlock(" );
@@ -122,7 +122,7 @@ namespace Generator
 		[TestMethod]
 		public void RootElement()
 		{
-			var code = BuildRazorFile( "data/codegen/RootElement.razor" );
+			var code = BuildRazorFile( "Data/codegen/RootElement.razor" );
 			Assert.IsTrue( code.Contains( "__builder.OpenElement( 0, \"root\", null );" ) );
 			Assert.IsFalse( code.Contains( "internal partial class" ) );
 			Assert.IsTrue( code.Contains( "public partial class" ) );
@@ -131,14 +131,14 @@ namespace Generator
 		[TestMethod]
 		public void InternalDirective()
 		{
-			var code = BuildRazorFile( "data/codegen/InternalDirective.razor" );
+			var code = BuildRazorFile( "Data/codegen/InternalDirective.razor" );
 			Assert.IsTrue( code.Contains( "internal partial class" ) );
 		}
 
 		[TestMethod]
 		public void Binds()
 		{
-			var code = BuildRazorFile( "data/codegen/Binds.razor" );
+			var code = BuildRazorFile( "Data/codegen/Binds.razor" );
 			Assert.IsFalse( code.Contains( "internal partial class" ) );
 			Assert.IsTrue( code.Contains( "public partial class" ) );
 			Assert.IsTrue( code.Contains( ".AddBind(" ) );
@@ -149,7 +149,7 @@ namespace Generator
 		{
 			// We want recursion to throw an exception at runtime (when building the render tree)
 			// so that users can see what they've done wrong
-			var code = BuildRazorFile( "data/codegen/RecursivePanel.razor" );
+			var code = BuildRazorFile( "Data/codegen/RecursivePanel.razor" );
 			Assert.IsTrue( code.Contains( "throw new System.Exception" ) );
 		}
 
@@ -157,14 +157,14 @@ namespace Generator
 		public void Nesting()
 		{
 			// We don't want nesting to fail at all
-			var code = BuildRazorFile( "data/codegen/NestedPanel.razor" );
+			var code = BuildRazorFile( "Data/codegen/NestedPanel.razor" );
 			Assert.IsFalse( code.Contains( "throw new System.Exception" ) );
 		}
 
 		[TestMethod]
 		public void RenderFragment()
 		{
-			var code = BuildRazorFile( "data/codegen/RenderFragmentTest.razor" );
+			var code = BuildRazorFile( "Data/codegen/RenderFragmentTest.razor" );
 			Assert.IsTrue( code.Contains( "__builder.SetRenderFragment" ) );
 			Assert.IsTrue( code.Contains( "__builder ) =>" ) );
 		}
@@ -172,7 +172,7 @@ namespace Generator
 		[TestMethod]
 		public void Generic_WithOneParam()
 		{
-			var code = BuildRazorFile( "data/codegen/Generic1.razor" );
+			var code = BuildRazorFile( "Data/codegen/Generic1.razor" );
 			Assert.IsTrue( code.Contains( "public partial class Generic1<T1>" ) );
 			Assert.IsTrue( code.Contains( "ListComponent<string>" ) );
 		}
@@ -180,7 +180,7 @@ namespace Generator
 		[TestMethod]
 		public void Generic_WithTwoParam()
 		{
-			var code = BuildRazorFile( "data/codegen/Generic2.razor" );
+			var code = BuildRazorFile( "Data/codegen/Generic2.razor" );
 			Assert.IsTrue( code.Contains( "public partial class Generic2<T1, T2>" ) );
 			Assert.IsTrue( code.Contains( "ListComponent<string,int>" ) );
 		}
@@ -189,11 +189,11 @@ namespace Generator
 		public void AutomaticNamespace()
 		{
 			// Test that namespace is automatically generated from folder structure
-			var razorText = System.IO.File.ReadAllText( "data/codegen/NamespaceTest.razor" );
+			var razorText = System.IO.File.ReadAllText( "Data/codegen/NamespaceTest.razor" );
 
 			// Test 1: Generate code WITH a root namespace and folder structure
-			// The path "data/codegen/NamespaceTest.razor" should produce "MyApp.UI.data.codegen"
-			var generatedCodeWithFolders = Sandbox.Razor.RazorProcessor.GenerateFromSource( razorText, "data/codegen/NamespaceTest.razor", "MyApp.UI" );
+			// The path "Data/codegen/NamespaceTest.razor" should produce "MyApp.UI.data.codegen"
+			var generatedCodeWithFolders = Sandbox.Razor.RazorProcessor.GenerateFromSource( razorText, "Data/codegen/NamespaceTest.razor", "MyApp.UI" );
 			System.Console.WriteLine( "Generated code with folder-based namespace:" );
 			System.Console.WriteLine( generatedCodeWithFolders );
 
@@ -209,7 +209,7 @@ namespace Generator
 			Assert.IsTrue( generatedCodeRealistic.Contains( "namespace Sandbox.UI.Components.Loader" ), "Generated code should contain 'namespace Sandbox.UI.Components.Loader'" );
 
 			// Test 3: Generate code WITHOUT a root namespace (should not have namespace directive)
-			var generatedCodeWithoutNamespace = Sandbox.Razor.RazorProcessor.GenerateFromSource( razorText, "data/codegen/NamespaceTest.razor", null );
+			var generatedCodeWithoutNamespace = Sandbox.Razor.RazorProcessor.GenerateFromSource( razorText, "Data/codegen/NamespaceTest.razor", null );
 			System.Console.WriteLine( "\nGenerated code without namespace:" );
 			System.Console.WriteLine( generatedCodeWithoutNamespace );
 
