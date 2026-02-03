@@ -39,7 +39,7 @@ public partial class CodeArchiveTest
 	public async Task SingleCompiler()
 	{
 		// Compile some shit
-		var codePath = System.IO.Path.GetFullPath( "data/code/base" );
+		var codePath = System.IO.Path.GetFullPath( "Data/code/base" );
 		using var group = new CompileGroup( "Test" );
 		var compiler = group.CreateCompiler( "test", codePath, new Compiler.Configuration() );
 		await group.BuildAsync();
@@ -88,7 +88,7 @@ public partial class CodeArchiveTest
 	[TestMethod]
 	public async Task SingleCompilerWithServer()
 	{
-		var codePath = System.IO.Path.GetFullPath( "data/code/base_with_server" );
+		var codePath = System.IO.Path.GetFullPath( "Data/code/base_with_server" );
 		using var group = new CompileGroup( "TestServer" );
 
 		var compilerSettings = new Compiler.Configuration();
@@ -170,7 +170,7 @@ public partial class CodeArchiveTest
 		group.CreateCompiler( "base", System.IO.Path.GetFullPath( "data/code/base" ), new Compiler.Configuration() );
 
 		// Create dependent compiler
-		var dependantCompiler = group.CreateCompiler( "dependant", System.IO.Path.GetFullPath( "data/code/dependant" ), new Compiler.Configuration() );
+		var dependantCompiler = group.CreateCompiler( "dependant", System.IO.Path.GetFullPath( "Data/code/dependant" ), new Compiler.Configuration() );
 
 		// We haven't referenced base compiler yet
 		Assert.IsFalse( dependantCompiler.HasReference( "package.base", true ) );

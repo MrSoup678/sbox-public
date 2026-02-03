@@ -38,7 +38,7 @@ namespace Generator
 			List<SyntaxTree> SyntaxTree = new List<SyntaxTree>();
 
 			foreach ( var file in files )
-				AddTree( SyntaxTree, $"data/codegen/{file}", defines );
+				AddTree( SyntaxTree, $"Data/codegen/{file}", defines );
 
 			var optn = new CSharpCompilationOptions( OutputKind.DynamicallyLinkedLibrary )
 									.WithConcurrentBuild( true )
@@ -51,7 +51,7 @@ namespace Generator
 
 			var path = System.IO.Path.GetDirectoryName( typeof( System.Object ).Assembly.Location );
 			refs.Add( MetadataReference.CreateFromFile( typeof( System.Object ).Assembly.Location ) );
-			refs.Add( MetadataReference.CreateFromFile( $"{path}\\System.Runtime.dll" ) );
+			refs.Add( MetadataReference.CreateFromFile( $"{path}/System.Runtime.dll" ) );
 
 			refs.Add( MetadataReference.CreateFromFile( typeof( Networking ).Assembly.Location ) );
 			refs.Add( MetadataReference.CreateFromFile( typeof( ConCmdAttribute ).Assembly.Location ) ); // Sandbox.System
@@ -98,7 +98,7 @@ namespace Generator
 
 			var path = System.IO.Path.GetDirectoryName( typeof( System.Object ).Assembly.Location );
 			refs.Add( MetadataReference.CreateFromFile( typeof( System.Object ).Assembly.Location ) );
-			refs.Add( MetadataReference.CreateFromFile( $"{path}\\System.Runtime.dll" ) );
+			refs.Add( MetadataReference.CreateFromFile( $"{path}/System.Runtime.dll" ) );
 
 			refs.Add( MetadataReference.CreateFromFile( typeof( Networking ).Assembly.Location ) );
 			refs.Add( MetadataReference.CreateFromFile( typeof( ConCmdAttribute ).Assembly.Location ) ); // Sandbox.System
@@ -159,7 +159,7 @@ namespace Generator
 
 			var path = System.IO.Path.GetDirectoryName( typeof( System.Object ).Assembly.Location );
 			refs.Add( MetadataReference.CreateFromFile( typeof( System.Object ).Assembly.Location ) );
-			refs.Add( MetadataReference.CreateFromFile( $"{path}\\System.Runtime.dll" ) );
+			refs.Add( MetadataReference.CreateFromFile( $"{path}/System.Runtime.dll" ) );
 
 			refs.Add( MetadataReference.CreateFromFile( typeof( Networking ).Assembly.Location ) );
 			refs.Add( MetadataReference.CreateFromFile( typeof( ConCmdAttribute ).Assembly.Location ) );
@@ -167,7 +167,7 @@ namespace Generator
 			CSharpCompilation compiler = CSharpCompilation.Create( $"poopy.dll", SyntaxTree, refs, optn );
 
 			// Process Razor files using RazorProcessor before running the Processor
-			foreach ( var file in System.IO.Directory.EnumerateFiles( "data/codegen/", "*.razor" ) )
+			foreach ( var file in System.IO.Directory.EnumerateFiles( "Data/codegen/", "*.razor" ) )
 			{
 				var razorText = System.IO.File.ReadAllText( file );
 				var generatedCode = Sandbox.Razor.RazorProcessor.GenerateFromSource( razorText, file );

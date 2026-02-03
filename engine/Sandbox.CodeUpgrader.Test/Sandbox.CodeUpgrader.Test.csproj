@@ -10,8 +10,8 @@
   </PropertyGroup>
 	
 	<ItemGroup>
-		<Compile Remove="data\**\*.cs" />
-		<None Include="data\**\*.*" CopyToOutputDirectory="Always" />
+		<Compile Remove="Data\**\*.cs" />
+		<None Include="Data\**\*.*" CopyToOutputDirectory="Always" />
 	</ItemGroup>
 
   <ItemGroup>

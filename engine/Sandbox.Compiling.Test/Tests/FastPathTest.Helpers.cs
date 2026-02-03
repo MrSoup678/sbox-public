@@ -66,7 +66,7 @@ internal class FastPathTestCompiler : IDisposable
 
 		Group.OnCompileSuccess = () => compileSuccessCallback = true;
 
-		var srcFile = new FileInfo( Path.Combine( "data", "code", "fastpath", $"{Name}.{version}.cs" ) );
+		var srcFile = new FileInfo( Path.Combine( "Data", "code", "fastpath", $"{Name}.{version}.cs" ) );
 
 		await using ( var dstStream = FileSystem.OpenWrite( $"{Name}.cs" ) )
 		await using ( var srcStream = srcFile.OpenRead() )

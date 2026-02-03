@@ -13,7 +13,7 @@ public partial class BlacklistTest
 	[TestMethod]
 	public async Task DefaultCompilerFailsWhitelist()
 	{
-		var codePath = System.IO.Path.GetFullPath( "data/code/blacklist" );
+		var codePath = System.IO.Path.GetFullPath( "Data/code/blacklist" );
 		using var group = new CompileGroup( "TestWhitelist" );
 
 		var compiler = group.GetOrCreateCompiler( "test" );
@@ -31,7 +31,7 @@ public partial class BlacklistTest
 	[TestMethod]
 	public async Task CompilerWithWhitelistFails()
 	{
-		var codePath = System.IO.Path.GetFullPath( "data/code/blacklist" );
+		var codePath = System.IO.Path.GetFullPath( "Data/code/blacklist" );
 		using var group = new CompileGroup( "TestWhitelist" );
 
 		var compilerSettings = new Compiler.Configuration();
@@ -51,7 +51,7 @@ public partial class BlacklistTest
 	[TestMethod]
 	public async Task CompilerWithoutWhitelistSucceeds()
 	{
-		var codePath = System.IO.Path.GetFullPath( "data/code/blacklist" );
+		var codePath = System.IO.Path.GetFullPath( "Data/code/blacklist" );
 		using var group = new CompileGroup( "TestWhitelist" );
 
 		var compilerSettings = new Compiler.Configuration();
@@ -73,7 +73,7 @@ public partial class BlacklistTest
 	{
 		bool compileSuccessCallback = false;
 
-		var codePath = System.IO.Path.GetFullPath( "data/code/blacklist" );
+		var codePath = System.IO.Path.GetFullPath( "Data/code/blacklist" );
 		using var group = new CompileGroup( "Test" );
 		group.OnCompileSuccess = () => compileSuccessCallback = true;
 
@@ -111,7 +111,7 @@ public partial class BlacklistTest
 			syntaxTrees: [syntaxTree],
 			references: [
 				MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-				MetadataReference.CreateFromFile( $"{path}\\System.Runtime.dll" ),
+				MetadataReference.CreateFromFile( $"{path}/System.Runtime.dll" ),
 				MetadataReference.CreateFromFile(typeof(Console).Assembly.Location),
 				MetadataReference.CreateFromFile(typeof(System.Runtime.InteropServices.MemoryMarshal).Assembly.Location),
 				MetadataReference.CreateFromFile(typeof(Networking).Assembly.Location),
