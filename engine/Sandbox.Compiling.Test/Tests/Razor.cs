@@ -198,7 +198,7 @@ namespace Generator
 			System.Console.WriteLine( generatedCodeWithFolders );
 
 			// Should contain the root namespace + folders
-			Assert.IsTrue( generatedCodeWithFolders.Contains( "namespace MyApp.UI.data.codegen" ), "Generated code should contain 'namespace MyApp.UI.data.codegen'" );
+			Assert.IsTrue( generatedCodeWithFolders.Contains( "namespace MyApp.UI.Data.codegen" ), "Generated code should contain 'namespace MyApp.UI.Data.codegen'" );
 
 			// Test 2: Generate code with a realistic addon path structure
 			// Simulating: UI/Components/Loader/LoaderFullScreen.razor -> Sandbox.UI.Components.Loader
