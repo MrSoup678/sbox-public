@@ -13,12 +13,12 @@ public class SboxNativesResolver
 	private static bool isSDL3System = false;
 	public static void SetupResolvers()
 	{
-		Assembly skiaSharpAssebmlyRef = typeof( SKAlphaType ).Assembly, 
+		Assembly skiaSharpAssebmlyRef = typeof( SKAlphaType ).Assembly,
 				harfBuzzSharpAssemblyRef = typeof( HarfBuzzSharp.Font ).Assembly,
-				selfAssembly = typeof(SboxNativesResolver).Assembly;
+				selfAssembly = typeof( SboxNativesResolver ).Assembly;
 		NativeLibrary.SetDllImportResolver( skiaSharpAssebmlyRef, SkiaSharpImportResolver );
 		NativeLibrary.SetDllImportResolver( harfBuzzSharpAssemblyRef, HarfBuzzSharpImportResolver );
-		NativeLibrary.SetDllImportResolver( selfAssembly, SelfImportResolver);
+		NativeLibrary.SetDllImportResolver( selfAssembly, SelfImportResolver );
 	}
 
 
@@ -31,14 +31,14 @@ public class SboxNativesResolver
 	}
 
 
-	private static IntPtr SelfImportResolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
+	private static IntPtr SelfImportResolver( string libraryName, Assembly assembly, DllImportSearchPath? searchPath )
 	{
 
 		//TODO: Steam_api resolution goes here. Can't do this right now due to StructPlatformPackSize also needing to be changed.
 		//Also that is lifted straight from Facepunch.Steamworks. (or other way around) Maybe introduce said changes there first.
-		if(libraryName == "SDL3" )
+		if ( libraryName == "SDL3" )
 		{
-			if (!isSDL3System && cachedLibHandles.TryGetValue( libraryName, out IntPtr outPtr ) )
+			if ( !isSDL3System && cachedLibHandles.TryGetValue( libraryName, out IntPtr outPtr ) )
 			{
 				return outPtr;
 			}
@@ -57,17 +57,20 @@ public class SboxNativesResolver
 					cachedLibHandles.Add( libraryName, libHandle );
 					return libHandle;
 				}
-			} catch (DllNotFoundException)
+			}
+			catch ( DllNotFoundException )
 			{
 				if ( OperatingSystem.IsLinux() )
 				{
 					//that's fine. Try to pull from system/sniper.
 					return IntPtr.Zero;
-				} else
+				}
+				else
 				{
 					throw;
 				}
-			};
+			}
+			;
 
 
 		}
