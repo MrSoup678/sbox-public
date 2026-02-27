@@ -34,8 +34,7 @@ public class SboxNativesResolver
 	private static IntPtr SelfImportResolver( string libraryName, Assembly assembly, DllImportSearchPath? searchPath )
 	{
 
-		//TODO: Steam_api resolution goes here. Can't do this right now due to StructPlatformPackSize also needing to be changed.
-		//Also that is lifted straight from Facepunch.Steamworks. (or other way around) Maybe introduce said changes there first.
+		
 		if ( libraryName == "SDL3" )
 		{
 			if ( !isSDL3System && cachedLibHandles.TryGetValue( libraryName, out IntPtr outPtr ) )
@@ -47,13 +46,13 @@ public class SboxNativesResolver
 			{
 				if ( OperatingSystem.IsLinux() )
 				{
-					libHandle = NativeLibrary.Load( $"{NetCore.NativeDllPath}/libHarfBuzzSharp.so.0.60830.0" );
+					libHandle = NativeLibrary.Load( $"{NetCore.NativeDllPath}/libSDL3.so" );
 					cachedLibHandles.Add( libraryName, libHandle );
 					return libHandle;
 				}
 				else if ( OperatingSystem.IsMacOS() )
 				{
-					libHandle = NativeLibrary.Load( $"{NetCore.NativeDllPath}/libHarfBuzzSharp.dylib" );
+					libHandle = NativeLibrary.Load( $"{NetCore.NativeDllPath}/libSDL3.dylib" );
 					cachedLibHandles.Add( libraryName, libHandle );
 					return libHandle;
 				}
