@@ -3,6 +3,7 @@
 
 using System.Reflection;
 using System.Runtime.InteropServices;
+using NativeEngine;
 using SkiaSharp;
 
 namespace Sandbox;
@@ -34,46 +35,15 @@ public class SboxNativesResolver
 	private static IntPtr SelfImportResolver( string libraryName, Assembly assembly, DllImportSearchPath? searchPath )
 	{
 
-		
-		if ( libraryName == "SDL3" )
+		//NOTE: This will hijack every DllImport using this!
+		if ( cachedLibHandles.TryGetValue( libraryName, out IntPtr outPtr ) )
 		{
-			if ( !isSDL3System && cachedLibHandles.TryGetValue( libraryName, out IntPtr outPtr ) )
-			{
-				return outPtr;
-			}
-			IntPtr libHandle;
-			try
-			{
-				if ( OperatingSystem.IsLinux() )
-				{
-					libHandle = NativeLibrary.Load( $"{NetCore.NativeDllPath}/libSDL3.so" );
-					cachedLibHandles.Add( libraryName, libHandle );
-					return libHandle;
-				}
-				else if ( OperatingSystem.IsMacOS() )
-				{
-					libHandle = NativeLibrary.Load( $"{NetCore.NativeDllPath}/libSDL3.dylib" );
-					cachedLibHandles.Add( libraryName, libHandle );
-					return libHandle;
-				}
-			}
-			catch ( DllNotFoundException )
-			{
-				if ( OperatingSystem.IsLinux() )
-				{
-					//that's fine. Try to pull from system/sniper.
-					return IntPtr.Zero;
-				}
-				else
-				{
-					throw;
-				}
-			}
-			;
-
-
+			return outPtr;
 		}
-		return IntPtr.Zero;
+		IntPtr libHandle;
+		libHandle = NativeLibrary.Load( $"{NetCore.NativeDllPath}/${NetCore.NativizeModuleName(libraryName,false)}" );
+		cachedLibHandles.Add( libraryName, libHandle );
+		return libHandle;
 	}
 	//TODO: Rename these files.
 	private static IntPtr HarfBuzzSharpImportResolver( string libraryName, Assembly assembly, DllImportSearchPath? searchPath )
@@ -85,18 +55,9 @@ public class SboxNativesResolver
 				return outPtr;
 			}
 			IntPtr libHandle;
-			if ( OperatingSystem.IsLinux() )
-			{
-				libHandle = NativeLibrary.Load( $"{NetCore.NativeDllPath}/libHarfBuzzSharp.so.0.60830.0" );
-				cachedLibHandles.Add( libraryName, libHandle );
-				return libHandle;
-			}
-			else if ( OperatingSystem.IsMacOS() )
-			{
-				libHandle = NativeLibrary.Load( $"{NetCore.NativeDllPath}/libHarfBuzzSharp.dylib" );
-				cachedLibHandles.Add( libraryName, libHandle );
-				return libHandle;
-			}
+			libHandle = NativeLibrary.Load( $"{NetCore.NativeDllPath}/${NetCore.NativizeModuleName(libraryName,false)}" );
+			cachedLibHandles.Add( libraryName, libHandle );
+			return libHandle;
 		}
 		return IntPtr.Zero;
 	}
@@ -112,18 +73,9 @@ public class SboxNativesResolver
 				return outPtr;
 			}
 			IntPtr libHandle;
-			if ( OperatingSystem.IsLinux() )
-			{
-				libHandle = NativeLibrary.Load( $"{NetCore.NativeDllPath}/libSkiaSharp.so.116.0.0" );
-				cachedLibHandles.Add( libraryName, libHandle );
-				return libHandle;
-			}
-			else if ( OperatingSystem.IsMacOS() )
-			{
-				libHandle = NativeLibrary.Load( $"{NetCore.NativeDllPath}/libSkiaSharp.dylib" );
-				cachedLibHandles.Add( libraryName, libHandle );
-				return libHandle;
-			}
+			libHandle = NativeLibrary.Load( $"{NetCore.NativeDllPath}/${NetCore.NativizeModuleName(libraryName,false)}" );
+			cachedLibHandles.Add( libraryName, libHandle );
+			return libHandle;
 		}
 		return IntPtr.Zero;
 	}
