@@ -15,20 +15,23 @@ namespace Facepunch;
 
 class Program
 {
-	[DllImport( "user32.dll", CharSet = CharSet.Auto )]
-	private static extern int MessageBox( IntPtr hWnd, string text, string caption, uint type );
+	//title and message are UTF-8. I'm using byte arrays for consistency
+	[DllImport( "SDL3" )]
+	private static extern int SDL_ShowSimpleMessageBox( int flags , byte[] title , byte[] message , IntPtr window);
 
 
 	static void Main( string[] args )
 	{
-		//try
-		//{
-		Run( args );
-		//}
-		//catch ( System.Exception e )
-		//{
-		//	MessageBox( default, e.Message, e.StackTrace, 0 );
-		//}
+		try
+		{
+			Run( args );
+		}
+		catch ( System.Exception e )
+		{
+			byte[] messageArr = Encoding.UTF8.GetBytes(e.Message).Append((byte)0).ToArray();
+			byte[] stackTraceArr = Encoding.UTF8.GetBytes(e.StackTrace).Append((byte)0).ToArray();
+			SDL_ShowSimpleMessageBox( 0x10, messageArr, stackTraceArr, default );
+		}
 	}
 
 	static void Run( string[] args )
