@@ -27,13 +27,13 @@
             "stopAtEntry": false,
             "console": "internalConsole"
         },{
-            "name": "sboxbuild",
+            "name": "Codegen",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/engine/Tools/SboxBuild/bin/net10.0/sboxbuild.dll",
+            "program": "${workspaceFolder}/engine/Tools/CodeGen/bin/CodeGen.dll",
             "args": ["build"],
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/engine/Sandbox.Engine",
             "stopAtEntry": false,
             "console": "internalConsole"
         },
