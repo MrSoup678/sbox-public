@@ -221,11 +221,11 @@ internal partial class ManagerWriter : BaseWriter
 						string managedArgss = $"{string.Join( ", ", managedArgs )}";
 
 						string nogc = "";
-
-						if ( f.IsNoGC )
-						{
-							nogc = "[SuppressGCTransition]";
-						}
+						//see ManagerWriter.Imports.cs.
+						//if ( f.IsNoGC )
+						//{
+						//	nogc = "[SuppressGCTransition]";
+						//}
 
 						WriteLine( $"{namespc}.{InternalNative}.{f.MangledName} = (delegate* unmanaged{nogc}< {managedArgss} >) nativeFunctions[{i++}];" );
 					}

@@ -249,10 +249,11 @@ internal partial class ManagerWriter
 						string managedArgss = $"{string.Join( ", ", managedArgs )}";
 
 						string nogc = "";
-						if ( f.IsNoGC )
-						{
-							nogc = "[SuppressGCTransition]";
-						}
+						//Supressed due to failing asserts screwing everything up.
+						//if ( f.IsNoGC )
+						//{
+						//	nogc = "[SuppressGCTransition]";
+						//}
 
 						WriteLine( $"internal static delegate* unmanaged{nogc}< {managedArgss} > {f.MangledName};" );
 					}
