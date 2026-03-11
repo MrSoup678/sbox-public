@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CommandLine;
+using System.Net.Security;
 using Facepunch.Pipelines;
 using Facepunch.Steps;
 using static Facepunch.Constants;
@@ -27,6 +28,8 @@ internal class Program
 
 		AddPullRequestPipeline( rootCommand );
 		AddDeployPipeline( rootCommand );
+
+		AddInteropGenStep(rootCommand);
 
 		rootCommand.Invoke( args );
 		return Environment.ExitCode;
@@ -179,6 +182,25 @@ internal class Program
 		}, forcedOption );
 
 		rootCommand.Add( buildShadersCommand );
+	}
+	private static void AddInteropGenStep( RootCommand rootCommand )
+	{
+		var interopGenCommand = new Command( "interop-gen", "Create interop layer for C#/C++" );
+		var skipNativeOption = new Option<bool>(
+			"--skip-native",
+			description: "Whether to skip C++ interop layer.",
+			getDefaultValue: () => false );
+
+		interopGenCommand.AddOption( skipNativeOption );
+
+		interopGenCommand.SetHandler( ( bool skipNative ) =>
+		{
+			var step = new Steps.InteropGen( "Generate interop layers.", skipNative );
+			ExitCode result = step.Run();
+			Environment.ExitCode = (int)result;
+		}, skipNativeOption );
+
+		rootCommand.Add( interopGenCommand );
 	}
 	private static void AddGenerateSolutionsStep( RootCommand rootCommand )
 	{
